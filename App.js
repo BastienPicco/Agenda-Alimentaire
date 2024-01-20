@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.js
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import MealTracker from './screens/MealTracker';
+import FoodManagement from './screens/FoodManagement';
+import { initializeDatabase } from './actions/database'; // Mettez à jour l'importation
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="MealTracker">
+        <Stack.Screen name="MealTracker" component={MealTracker} />
+        <Stack.Screen name="FoodManagement" component={FoodManagement} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
